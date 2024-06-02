@@ -359,14 +359,15 @@ TEST DATA 2: Julia's data [9, 16, 6, 8, 3], Kate's data [10, 5, 6, 1, 4]
 GOOD LUCK 😀
 */
 
-const dogsJulia = [3, 5, 2, 12, 7];
-const dogsKate = [4, 1, 15, 8, 3];
-
-dogsJulia.splice(0, 1);
-dogsJulia.splice(-2);
+const dogsJulia = [9, 16, 6, 8, 3];
+const dogsKate = [10, 5, 6, 1, 4];
 
 const checkDogs = function (dogs1, dogs2) {
-  const allDogs = [...dogs1, ...dogs2];
+  const dogsJulia = dogs1.slice();
+  dogsJulia.splice(0, 1);
+  dogsJulia.splice(-2);
+
+  const allDogs = [...dogsJulia, ...dogs2];
   console.log(allDogs);
   allDogs.forEach(function (age, i) {
     const str =
