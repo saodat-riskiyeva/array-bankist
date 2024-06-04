@@ -81,6 +81,20 @@ const displayMovements = function (movements) {
 
 displayMovements(account1.movements);
 
+const user = 'Steven Thomas Williams'; // stw
+
+const createUsername = function (accs) {
+  accs.forEach(function (account) {
+    account.username = account.owner
+      .toLowerCase()
+      .split(' ')
+      .map(word => word[0])
+      .join('');
+  });
+};
+
+createUsername(accounts);
+
 /////////////////////////////////////////////////
 /////////////////////////////////////////////////
 // // LECTURES
@@ -175,19 +189,34 @@ displayMovements(account1.movements);
 //   console.log(`${key}: ${value}`);
 // });
 
-const movements = [200, 450, -400, 3000, -650, -130, 70, 1300];
-const eurToUsd = 1.1;
-// MAP
-const movementsUSD = movements.map(mov => mov * eurToUsd);
+// const movements = [200, 450, -400, 3000, -650, -130, 70, 1300];
+// const eurToUsd = 1.1;
+// // MAP
+// const movementsUSD = movements.map(mov => mov * eurToUsd);
 
-console.log(movements);
-console.log(movementsUSD);
+// console.log(movements);
+// console.log(movementsUSD);
 
-const movementsUSDfor = [];
-for (const mov of movements) movementsUSDfor.push(mov * eurToUsd);
-console.log(movementsUSDfor);
+// const movementsUSDfor = [];
+// for (const mov of movements) movementsUSDfor.push(mov * eurToUsd);
+// console.log(movementsUSDfor);
 
-const movementDescriptions = movements.map((mov, i) => {
-  return `Movement ${i + 1}: You ${mov > 0 ? 'deposited' : 'withdrew'} ${mov}`;
+// const movementDescriptions = movements.map((mov, i) => {
+//   return `Movement ${i + 1}: You ${mov > 0 ? 'deposited' : 'withdrew'} ${mov}`;
+// });
+// console.log(movementDescriptions);
+
+const movements2 = [200, 450, -400, 3000, -650, -130, 70, 1300];
+const deposits = movements2.filter(function (mov) {
+  return mov > 0;
 });
-console.log(movementDescriptions);
+console.log(movements2);
+console.log(deposits);
+
+const depositsFor = [];
+for (const mov of movements2) if (mov > 0) depositsFor.push(mov);
+
+console.log(depositsFor);
+
+const withdrawals = movements2.filter(mov => mov < 0);
+console.log(withdrawals);
