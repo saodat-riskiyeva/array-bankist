@@ -359,24 +359,24 @@ TEST DATA 2: Julia's data [9, 16, 6, 8, 3], Kate's data [10, 5, 6, 1, 4]
 GOOD LUCK 😀
 */
 
-const dogsJulia = [9, 16, 6, 8, 3];
-const dogsKate = [10, 5, 6, 1, 4];
+// const dogsJulia = [9, 16, 6, 8, 3];
+// const dogsKate = [10, 5, 6, 1, 4];
 
-const checkDogs = function (dogs1, dogs2) {
-  const dogsJulia = dogs1.slice();
-  dogsJulia.splice(0, 1);
-  dogsJulia.splice(-2);
+// const checkDogs = function (dogs1, dogs2) {
+//   const dogsJulia = dogs1.slice();
+//   dogsJulia.splice(0, 1);
+//   dogsJulia.splice(-2);
 
-  const allDogs = [...dogsJulia, ...dogs2];
-  console.log(allDogs);
-  allDogs.forEach(function (age, i) {
-    const str =
-      age >= 3 ? `an adult, and is ${age} years old` : `still a puppy`;
-    console.log(`Dog number ${i + 1} is ` + str);
-  });
-};
+//   const allDogs = [...dogsJulia, ...dogs2];
+//   console.log(allDogs);
+//   allDogs.forEach(function (age, i) {
+//     const str =
+//       age >= 3 ? `an adult, and is ${age} years old` : `still a puppy`;
+//     console.log(`Dog number ${i + 1} is ` + str);
+//   });
+// };
 
-checkDogs(dogsJulia, dogsKate);
+// checkDogs(dogsJulia, dogsKate);
 
 /*
 const checkDogs = function (dogsJulia, dogsKate) {
@@ -483,6 +483,21 @@ TEST DATA 2: [16, 6, 10, 5, 6, 1, 4]
 
 GOOD LUCK 😀
 */
+const arr = [5, 2, 4, 1, 15, 8, 3];
+const arr2 = [16, 6, 10, 5, 6, 1, 4];
+
+const calcAverageHumanAge = function (ages) {
+  const humanAges = ages.map(age => (age <= 2 ? age * 2 : 16 + age * 4));
+
+  const adults = humanAges.filter(age => age >= 18);
+
+  const average = adults.reduce((acc, cur) => acc + cur, 0) / adults.length;
+
+  return average;
+};
+
+console.log(calcAverageHumanAge(arr));
+console.log(calcAverageHumanAge(arr2));
 
 /*
 const calcAverageHumanAge = function (ages) {

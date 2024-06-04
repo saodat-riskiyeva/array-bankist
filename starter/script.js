@@ -90,6 +90,26 @@ const calcPrintBalance = function (movements) {
 
 calcPrintBalance(account1.movements);
 
+const calcDisplaySummary = function (movements) {
+  const income = movements
+    .filter(mov => mov > 0)
+    .reduce((acc, cur) => acc + cur, 0);
+  labelSumIn.textContent = `${income}EUR`;
+
+  const withdrawal = movements
+    .filter(mov => mov < 0)
+    .reduce((acc, cur) => acc + cur, 0);
+  labelSumOut.textContent = `${Math.abs(withdrawal)}EUR`;
+
+  const interest = movements
+    .filter(mov => mov > 1)
+    .filter(mov => mov * 0.012 > 1)
+    .reduce((acc, cur) => acc + cur * 0.012, 0);
+  labelSumInterest.textContent = `${interest}EUR`;
+};
+
+calcDisplaySummary(account1.movements);
+
 const createUsername = function (accs) {
   accs.forEach(function (account) {
     account.username = account.owner
@@ -160,7 +180,7 @@ createUsername(accounts);
 // console.log('jonas'.at(0));
 // console.log('jonas'.at(-1));
 
-// const movements = [200, 450, -400, 3000, -650, -130, 70, 1300];
+const movements = [200, 450, -400, 3000, -650, -130, 70, 1300];
 
 // for (const [i, movement] of movements.entries()) {
 //   if (movement > 0) {
@@ -235,14 +255,23 @@ const movements2 = [200, 450, -400, 3000, -650, -130, 70, 1300];
 //   return acc + curr;
 // }, 0);
 
-const balance = movements2.reduce((acc, curr) => acc + curr, 0);
+// const balance = movements2.reduce((acc, curr) => acc + curr, 0);
 
-console.log(balance);
+// console.log(balance);
 
-let balance2 = 0;
-for (const mov of movements2) balance2 += mov;
-console.log(balance2);
+// let balance2 = 0;
+// for (const mov of movements2) balance2 += mov;
+// console.log(balance2);
 
-const max = movements2.reduce((fir, sec) => (fir > sec ? fir : sec));
+// const max = movements2.reduce((fir, sec) => (fir > sec ? fir : sec));
 
-console.log(max);
+// console.log(max);
+
+const eurToUsd = 1.1;
+
+// PIPELINE
+const totalDepositInUSD = movements
+  .filter(mov => mov > 0)
+  .map(mov => mov * eurToUsd)
+  .reduce((acc, cur) => acc + cur, 0);
+console.log(totalDepositInUSD);
