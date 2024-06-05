@@ -61,54 +61,7 @@ const inputLoanAmount = document.querySelector('.form__input--loan-amount');
 const inputCloseUsername = document.querySelector('.form__input--user');
 const inputClosePin = document.querySelector('.form__input--pin');
 
-const displayMovements = function (movements) {
-  containerMovements.innerHTML = '';
-
-  movements.forEach(function (value, key) {
-    const type = value > 0 ? 'deposit' : 'withdrawal';
-
-    const html = `
-      <div class="movements">
-        <div class="movements__row">
-          <div class="movements__type movements__type--${type}">${
-      key + 1
-    } ${type}</div>
-          <div class="movements__value">${value}</div>
-        </div>`;
-    containerMovements.insertAdjacentHTML('afterbegin', html);
-  });
-};
-
-displayMovements(account1.movements);
-
 const user = 'Steven Thomas Williams'; // stw
-
-const calcPrintBalance = function (movements) {
-  const balance = movements.reduce((bal, mov) => bal + mov, 0);
-  labelBalance.textContent = `${balance} EUR`;
-};
-
-calcPrintBalance(account1.movements);
-
-const calcDisplaySummary = function (movements) {
-  const income = movements
-    .filter(mov => mov > 0)
-    .reduce((acc, cur) => acc + cur, 0);
-  labelSumIn.textContent = `${income}EUR`;
-
-  const withdrawal = movements
-    .filter(mov => mov < 0)
-    .reduce((acc, cur) => acc + cur, 0);
-  labelSumOut.textContent = `${Math.abs(withdrawal)}EUR`;
-
-  const interest = movements
-    .filter(mov => mov > 1)
-    .filter(mov => mov * 0.012 > 1)
-    .reduce((acc, cur) => acc + cur * 0.012, 0);
-  labelSumInterest.textContent = `${interest}EUR`;
-};
-
-calcDisplaySummary(account1.movements);
 
 const createUsername = function (accs) {
   accs.forEach(function (account) {
@@ -276,11 +229,86 @@ const movements2 = [200, 450, -400, 3000, -650, -130, 70, 1300];
 //   .reduce((acc, cur) => acc + cur, 0);
 // console.log(totalDepositInUSD);
 
-const firstWithdrswal = movements.find(mov => mov < 0);
-console.log(movements);
-console.log(firstWithdrswal);
+// const firstWithdrswal = movements.find(mov => mov < 0);
+// console.log(movements);
+// console.log(firstWithdrswal);
 
-console.log(accounts);
+// console.log(accounts);
 
-const account = accounts.find(acc => acc.owner === 'Jessica Davis');
-console.log(account);
+// const account = accounts.find(acc => acc.owner === 'Jessica Davis');
+// console.log(account);
+const displayMovements = function (movements) {
+  containerMovements.innerHTML = '';
+
+  movements.forEach(function (value, key) {
+    const type = value > 0 ? 'deposit' : 'withdrawal';
+
+    const html = `
+      <div class="movements">
+        <div class="movements__row">
+          <div class="movements__type movements__type--${type}">${
+      key + 1
+    } ${type}</div>
+          <div class="movements__value">${value}</div>
+        </div>`;
+    containerMovements.insertAdjacentHTML('afterbegin', html);
+  });
+};
+
+const calcPrintBalance = function (movements) {
+  const balance = movements.reduce((bal, mov) => bal + mov, 0);
+  labelBalance.textContent = `${balance} EUR`;
+};
+
+const calcDisplaySummary = function (acc) {
+  const income = acc.movements
+    .filter(mov => mov > 0)
+    .reduce((acc, cur) => acc + cur, 0);
+  labelSumIn.textContent = `${income}EUR`;
+
+  const withdrawal = acc.movements
+    .filter(mov => mov < 0)
+    .reduce((acc, cur) => acc + cur, 0);
+  labelSumOut.textContent = `${Math.abs(withdrawal)}EUR`;
+
+  const interest = acc.movements
+    .filter(mov => mov > 1)
+    .map(mov => (mov * acc.interestRate) / 100)
+    .filter((int, i, arr) => {
+      return int >= 1;
+    })
+    .reduce((acc, int) => acc + int, 0);
+  labelSumInterest.textContent = `${interest}EUR`;
+};
+// Event handlers
+let currentAccount;
+
+btnLogin.addEventListener('click', function (e) {
+  // prevent form from submitting
+  e.preventDefault();
+
+  currentAccount = accounts.find(
+    acc => acc.username === inputLoginUsername.value
+  );
+
+  if (currentAccount?.pin === Number(inputLoginPin.value)) {
+    // Display UI and welcome message
+    labelWelcome.textContent = `Welcome back, ${
+      currentAccount.owner.split(' ')[0]
+    }`;
+    containerApp.style.opacity = 100;
+
+    //Clear input fields
+    inputLoginUsername.value = inputLoginPin.value = '';
+    inputLoginPin.blur();
+
+    // Display movements
+    displayMovements(currentAccount.movements);
+
+    // Display balance
+    calcPrintBalance(currentAccount.movements);
+
+    // Display summary
+    calcDisplaySummary(currentAccount);
+  }
+});
