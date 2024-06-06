@@ -363,3 +363,25 @@ btnClose.addEventListener('click', function (e) {
     containerApp.style.opacity = 0;
   }
 });
+
+btnLoan.addEventListener('click', function (e) {
+  e.preventDefault();
+  const amount = Number(inputLoanAmount.value);
+  console.log(amount);
+
+  if (amount > 0 && currentAccount.movements.some(mov => mov >= amount * 0.1)) {
+    currentAccount.movements.push(amount);
+
+    updateUI(currentAccount);
+
+    inputLoanAmount.value = '';
+  }
+});
+console.log(movements.includes(-130));
+// SOME
+const movingAboveZero = movements.some(mov => mov > 0);
+console.log(movingAboveZero);
+
+// EVERY
+console.log(movements.every(mov => mov > 0));
+console.log(account4.movements.every(mov => mov > 0));
