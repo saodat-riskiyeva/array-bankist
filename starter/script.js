@@ -385,3 +385,24 @@ console.log(movingAboveZero);
 // EVERY
 console.log(movements.every(mov => mov > 0));
 console.log(account4.movements.every(mov => mov > 0));
+
+const arr = [[1, 2, 3], [4, 5, 6], 7, 8];
+console.log(arr);
+console.log(arr.flat());
+
+const arrDeep = [[[1, 2], 3], [4, [5, 6]], 7, 8];
+console.log(arrDeep.flat());
+console.log(arrDeep.flat(2));
+
+// FLAT
+const overallBalance = accounts
+  .map(acc => acc.movements)
+  .flat()
+  .reduce((bal, mov) => bal + mov, 0);
+console.log(overallBalance);
+
+// FLATMAP
+const overallBalance2 = accounts
+  .flatMap(acc => acc.movements)
+  .reduce((bal, mov) => bal + mov, 0);
+console.log(overallBalance2);
