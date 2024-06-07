@@ -237,10 +237,12 @@ const movements2 = [200, 450, -400, 3000, -650, -130, 70, 1300];
 
 // const account = accounts.find(acc => acc.owner === 'Jessica Davis');
 // console.log(account);
-const displayMovements = function (movements) {
+const displayMovements = function (movements, sort = false) {
   containerMovements.innerHTML = '';
 
-  movements.forEach(function (value, key) {
+  const movs = sort ? movements.slice().sort((a, b) => a - b) : movements;
+
+  movs.forEach(function (value, key) {
     const type = value > 0 ? 'deposit' : 'withdrawal';
 
     const html = `
@@ -377,32 +379,59 @@ btnLoan.addEventListener('click', function (e) {
     inputLoanAmount.value = '';
   }
 });
-console.log(movements.includes(-130));
-// SOME
-const movingAboveZero = movements.some(mov => mov > 0);
-console.log(movingAboveZero);
 
-// EVERY
-console.log(movements.every(mov => mov > 0));
-console.log(account4.movements.every(mov => mov > 0));
+let sorted = false;
 
-const arr = [[1, 2, 3], [4, 5, 6], 7, 8];
-console.log(arr);
-console.log(arr.flat());
+btnSort.addEventListener('click', function (e) {
+  e.preventDefault();
+  displayMovements(currentAccount.movements, !sorted);
+  sorted = !sorted;
+});
 
-const arrDeep = [[[1, 2], 3], [4, [5, 6]], 7, 8];
-console.log(arrDeep.flat());
-console.log(arrDeep.flat(2));
+// console.log(movements.includes(-130));
+// // SOME
+// const movingAboveZero = movements.some(mov => mov > 0);
+// console.log(movingAboveZero);
 
-// FLAT
-const overallBalance = accounts
-  .map(acc => acc.movements)
-  .flat()
-  .reduce((bal, mov) => bal + mov, 0);
-console.log(overallBalance);
+// // EVERY
+// console.log(movements.every(mov => mov > 0));
+// console.log(account4.movements.every(mov => mov > 0));
 
-// FLATMAP
-const overallBalance2 = accounts
-  .flatMap(acc => acc.movements)
-  .reduce((bal, mov) => bal + mov, 0);
-console.log(overallBalance2);
+// const arr = [[1, 2, 3], [4, 5, 6], 7, 8];
+// console.log(arr);
+// console.log(arr.flat());
+
+// const arrDeep = [[[1, 2], 3], [4, [5, 6]], 7, 8];
+// console.log(arrDeep.flat());
+// console.log(arrDeep.flat(2));
+
+// // FLAT
+// const overallBalance = accounts
+//   .map(acc => acc.movements)
+//   .flat()
+//   .reduce((bal, mov) => bal + mov, 0);
+// console.log(overallBalance);
+
+// // FLATMAP
+// const overallBalance2 = accounts
+//   .flatMap(acc => acc.movements)
+//   .reduce((bal, mov) => bal + mov, 0);
+// console.log(overallBalance2);
+
+// // SORT strings
+// const owners = ['Jonas', 'Zach', 'Adam', 'Martha'];
+
+// console.log(owners.sort());
+// console.log(owners);
+
+// // SORT numbers
+// console.log(movements);
+
+// movements.sort((a, b) => {
+//   if (a > b) return 1; // keep order
+//   if (b > a) return -1; // switch order
+// });
+// console.log(movements);
+
+// movements.sort((a, b) => b - a);
+// console.log(movements);
