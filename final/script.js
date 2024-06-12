@@ -749,7 +749,77 @@ labelBalance.addEventListener('click', function () {
 
 ///////////////////////////////////////
 // Coding Challenge #4
+const dogs = [
+  { weight: 22, curFood: 250, owners: ['Alice', 'Bob'] },
+  { weight: 8, curFood: 200, owners: ['Matilda'] },
+  { weight: 13, curFood: 275, owners: ['Sarah', 'John'] },
+  { weight: 32, curFood: 340, owners: ['Michael'] },
+];
 
+// 1.
+dogs.forEach(dog => {
+  dog.portion = Math.trunc(dog.weight ** 0.75 * 28);
+});
+
+console.log(dogs);
+
+// 2.
+const dogSarah = dogs.find(dog => dog.owners.includes('Sarah'));
+console.log(dogSarah);
+const str = `Sarah's dog is eating too ${
+  dogSarah.curFood > dogSarah.portion ? ' much' : 'little'
+}`;
+console.log(str);
+
+// 3.
+const { ownersEatTooMuchCount, ownersEatTooLittleCount } = dogs.reduce(
+  (count, dog) => {
+    ++count[
+      dog.curFood > dog.portion
+        ? 'ownersEatTooMuchCount'
+        : 'ownersEatTooLittleCount'
+    ];
+    return count;
+  },
+  { ownersEatTooMuchCount: 0, ownersEatTooLittleCount: 0 }
+);
+console.log(ownersEatTooMuchCount, ownersEatTooLittleCount);
+
+const { ownersEatTooMuch, ownersEatTooLittle } = dogs.reduce(
+  (array, dog) => {
+    array[
+      dog.curFood > dog.portion ? 'ownersEatTooMuch' : 'ownersEatTooLittle'
+    ].push(dog.owners);
+    return array;
+  },
+  { ownersEatTooMuch: [], ownersEatTooLittle: [] }
+);
+console.log(ownersEatTooMuch.flat(), ownersEatTooLittle.flat());
+
+// 4.
+console.log(`${ownersEatTooLittle.flat().join(' and ')}'s dogs eat too little`);
+console.log(`${ownersEatTooMuch.flat().join(' and ')}'s dogs eat too much`);
+
+// 5.
+const analysis = dogs.map(dog => dog.curFood === dog.portion);
+console.log(analysis);
+
+// 6.
+const analysis2 = dogs.map(
+  dog => dog.curFood >= dog.portion * 0.9 && dog.curFood <= dog.portion * 1.1
+);
+console.log(analysis2);
+
+// 7.
+const analysis3 = dogs.filter(
+  dog => dog.curFood >= dog.portion * 0.9 && dog.curFood <= dog.portion * 1.1
+);
+console.log(analysis3);
+
+// 8.
+console.log(dogs);
+const order = dogs.slice().sort((a, b) => a.portion - b.portion);
+console.log(order);
 /* 
 Julia and Kate are still studying dogs, and this time they are studying if dogs are eating too much or too little.
 Eating too much means the dog's current food portion is larger than the recommended portion, and eating too little is the opposite.
